@@ -10,7 +10,11 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 export default {
+    computed: {
+        ...mapState(['statePokemonDataList', 'stateFavoritePokemonList']),
+    },
     async created() {
         const pokemonData = await this.getPokemonData()
         this.setPokemonData(pokemonData)
@@ -22,8 +26,9 @@ export default {
             )
             const json = await data.json()
             return json.results
-        }
-    }
+        },
+        ...mapActions(['setPokemonData', 'addFavorite', 'deleteFavorite', 'eraseFavoritePokemonList']),
+    },
 }
 </script>
 
