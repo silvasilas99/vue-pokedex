@@ -4,21 +4,20 @@
         class="pokemon-card nes-container is-rounded"
     >
         <div class="pokemon-card__image">
-            <img 
+            <img
                 :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonData.id}.png`"
-                :alt="pokemonData.name"    
+                :alt="pokemonData.name"
             >
         </div>
-
         <div class="pokemon-card__text">
             <p>Name: {{ pokemonData.name }}</p>
-            <p>No: {{ pokemonData.id }}</p>
+            <p>No. {{ pokemonData.id }}</p>
             <p>
                 Type: <span
                     v-for="(typesOfPokemon, index) in pokemonData.types"
                     :key="`type${index}`"
                 >
-                    {{ typesOfPokemon.type.name }}
+                {{ typesOfPokemon.type.name }}
                 </span>
             </p>
             <p>{{ pokemonDescription[0].flavor_text }}</p>
@@ -27,42 +26,42 @@
 </template>
 
 <script>
-export default {
-    name: 'PokemonCard',
-    props: {
-        pokemonName: {
-            type: String,
-            default: ''
-        }
-    },
-    data: function () {
-        return {
-            pokemonData: null,
-            pokemonDescription: null
-        }
-    },
-    async created () {
-        if (this.pokemonName) {
-            this.pokemonData = await this.getDataSpecificPokemon(this.pokemonName)
-            this.pokemonDescription = await this.getPokemonDescription(this.pokemonData)
-        }
-    },
-    methods: {
-        async getDataSpecificPokemon(name) {
-            const data = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}/`)
-            const json = await data.json()
-            return json
+    export default {
+        name: 'PokemonCard',
+        props: {
+            pokemonName: {
+                type: String,
+                default: ''
+            }
         },
-        async getPokemonDescription(pokemonData) {
-            const data = await fetch(`${pokemonData.species.url}`)
-            const json = await data.json()
-            return json.flavor_text_entries.filter(function (element) {
-                return element.language.name === 'en'
-            })
+        data: function () {
+            return {
+                pokemonData: null,
+                pokemonDescription: null
+            }
+        },
+        async created () {
+            if (this.pokemonName) {
+                this.pokemonData = await this.getDataSpecificPokemon(this.pokemonName)
+                this.pokemonDescription = await this.getPokemonDescription(this.pokemonData)
+            }
+        },
+        methods: {
+            async getDataSpecificPokemon(name) {
+                const data = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}/`)
+                const json = await data.json()
+                return json
+            },
+            async getPokemonDescription(pokemonData) {
+                const data = await fetch(`${pokemonData.species.url}`)
+                const json = await data.json()
+                return json.flavor_text_entries.filter(function(element) {
+                    return element.language.name === 'en'
+                })
+            }
         }
+            
     }
-
-}
 </script>
 
 <style scoped>
