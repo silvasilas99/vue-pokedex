@@ -34,7 +34,7 @@
 
             <button
                 v-show="favorites.includes(pokemon.name)"
-                class="net-btn is-error"
+                class="nes-btn is-error"
                 @click="setFavorites(pokemon.name), playPokemonCry(index + 1)"
             >
                 Remove
